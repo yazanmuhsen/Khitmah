@@ -62,15 +62,17 @@ function KhitmahApp() {
         }
 
         // If currently in reader, update selectedJuz with newest status
-        if (selectedJuz) {
-          const updated = data.juzList?.find(j => j.juz_number === selectedJuz.juz_number);
-          if (updated) setSelectedJuz(updated);
-        }
+              // Keep the CURRENT selection, only refresh its status
+        setSelectedJuz(prev => {
+          if (!prev) return prev;
+          const updated = data.juzList?.find(j => j.juz_number === prev.juz_number);
+          return updated || prev;
+        });
       }
     } catch (err) {
       console.warn('Failed to fetch board data:', err.message);
     }
-  }, [selectedJuz]);
+  }, []);
 
   // Initial load
   useEffect(() => {
