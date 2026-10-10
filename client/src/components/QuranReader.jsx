@@ -56,8 +56,10 @@ export default function QuranReader({
   useEffect(() => {
     let isMounted = true;
     async function fetchPages() {
-      setLoading(true);
+           setLoading(true);
       setError(null);
+      setJuzData(null);
+      setCurrentPageIndex(0);
       try {
         const res = await fetch(`/api/juz/${juz.juz_number}/pages`);
         if (!res.ok) {
@@ -89,7 +91,7 @@ export default function QuranReader({
 
   // Save current page index to localStorage
   useEffect(() => {
-    if (juzData && juzData.pages?.length > 0) {
+       if (juzData && juzData.juzNumber === juz.juz_number && juzData.pages?.length > 0) {
       localStorage.setItem(`khitmah_page_juz_${juz.juz_number}`, currentPageIndex);
     }
   }, [currentPageIndex, juz.juz_number, juzData]);
