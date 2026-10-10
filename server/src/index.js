@@ -75,6 +75,13 @@ process.on('SIGTERM', () => {
   server.close();
 });
 
-startServer();
+startServer().then(async () => {
+  // Warm the Quran cache in the background so readers don't wait
+  const { getJuzPages } = require('./quranService');
+  for (let i = 1; i <= 30; i++) {
+    try { await getJuzPages(i); } catch (e) { console.warn(`Cache warm failed for Juz ${i}:`, e.message); }
+  }
+  console.log('Quran cache warmed for all 30 juz.');
+});
 
 module.exports = { app, server };
