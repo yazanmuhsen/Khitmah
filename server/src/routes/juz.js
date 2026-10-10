@@ -4,7 +4,7 @@ const { getJuzPages, getAllJuzMetadata } = require('../quranService');
 const { broadcast } = require('../websocket');
 
 const router = express.Router();
-const COOLDOWN_SECONDS = 40; // 45 minutes = 2700 seconds
+const COOLDOWN_SECONDS = 10; // 45 minutes = 2700 seconds
 
 // Helper to extract device ID and normalized IP address
 function getClientIdentifier(req) {
